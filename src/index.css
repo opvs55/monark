@@ -1,0 +1,108 @@
+/* src/index.css */
+
+/* === ESTILOS GERAIS === */
+body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background-color: #121212; color: #e0e0e0; transition: background-image 2s ease-in-out; overflow: hidden; }
+#root { width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+
+/* === ESTILOS DO PERSONAGEM === */
+.personagem-container { margin-bottom: 20px; transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease-out; z-index: 10; }
+
+@keyframes pulsar-sombra-inicial {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(183, 28, 28, 0.4)); }
+  50% { filter: drop-shadow(0 0 12px rgba(183, 28, 28, 0.7)); }
+}
+
+.personagem-sprite { max-width: 80%; height: 350px; object-fit: contain; transition: all 1.5s ease; animation: pulsar-sombra-inicial 4s infinite ease-in-out; }
+
+@keyframes tremer-e-brilhar {
+  0%, 100% { transform: translateX(0); filter: drop-shadow(0 0 2px #ff4d4d); }
+  10% { transform: translateX(-2px); }
+  20% { transform: translateX(2px); }
+  30% { transform: translateX(-2px); filter: drop-shadow(0 0 8px #ff4d4d); }
+  40% { transform: translateX(2px); }
+  50% { transform: translateX(-2px); }
+  60% { transform: translateX(2px); filter: drop-shadow(0 0 2px #ff4d4d); }
+  70% { transform: translateX(-1px); }
+  80% { transform: translateX(1px); }
+  90% { transform: translateX(-1px); filter: drop-shadow(0 0 10px #ff0000); }
+}
+
+/* MUDANÇA IMPORTANTE: Personagem cresce durante a revelação */
+.personagem-pre-transformacao {
+  transform: scale(1.2); /* Aumenta o tamanho em 20% */
+  transition: transform 1s ease-out; /* Transição suave para o aumento */
+}
+.personagem-pre-transformacao .personagem-sprite {
+  animation: tremer-e-brilhar 2s infinite cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.personagem-final { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1.6); z-index: 50; }
+
+@keyframes respiracao-poderosa {
+  0% { transform: scale(1); filter: drop-shadow(0 0 10px #ff6b6b); }
+  50% { transform: scale(1.03); filter: drop-shadow(0 0 25px #ff1f1f); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 10px #ff6b6b); }
+}
+.personagem-final .personagem-sprite { height: 600px; animation: respiracao-poderosa 5s infinite ease-in-out; }
+
+/* === ESTILOS DO CHAT === */
+.chat-container { width: 90%; max-width: 700px; border: 1px solid #333; background-color: #1f1f1f; border-radius: 8px; padding: 15px; margin-top: 20px; z-index: 20; }
+.chat-history { height: 350px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; }
+.message { padding: 12px; border-radius: 15px; max-width: 75%; word-wrap: break-word; line-height: 1.4; text-align: left; }
+.message.model { background-color: #37474f; color: #eceff1; align-self: flex-start; border-bottom-left-radius: 2px; }
+.message.user { background-color: #b71c1c; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+.chat-input { display: flex; gap: 10px; }
+.chat-input input { flex-grow: 1; padding: 10px; border: 1px solid #444; border-radius: 5px; background-color: #333; color: #e0e0e0; font-size: 16px; }
+.chat-input button { padding: 10px 20px; border: none; background-color: #b71c1c; color: white; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background-color 0.2s; }
+.chat-input button:hover { background-color: #d32f2f; }
+.chat-input button:disabled { background-color: #555; cursor: not-allowed; }
+@keyframes typing-blink { 0% { opacity: 0.2; } 20% { opacity: 1; } 100% { opacity: 0.2; } }
+.typing-indicator { display: flex; align-items: center; padding: 5px 0; }
+.typing-indicator span { height: 8px; width: 8px; margin: 0 2px; background-color: #90a4ae; border-radius: 50%; opacity: 0.2; animation: typing-blink 1.4s infinite both; }
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+/* === ANIMAÇÕES FINAIS E DE REVELAÇÃO === */
+@keyframes fadeInFundo { from { opacity: 0; } to { opacity: 1; } }
+.fundo-revelacao { background-image: url('/images/fundo_arcanjo.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; animation: fadeInFundo 1.5s 0.5s forwards; }
+@keyframes animacao-flash { 0% { opacity: 0; } 40% { opacity: 1; } 100% { opacity: 0; } }
+.animacao-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+.flash-background-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #fff; z-index: 110; opacity: 0; animation: animacao-flash 1.5s ease-out forwards; }
+@keyframes aparecer-e-sumir-memoria { 0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); filter: blur(5px); } 25% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } 75% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); filter: blur(5px); } }
+.quadro-memoria { position: absolute; width: 30vw; height: 35vh; background-size: cover; background-position: center; border: 3px solid rgba(255, 255, 255, 0.7); box-shadow: 0 0 25px rgba(0, 0, 0, 0.7); opacity: 0; z-index: 120; }
+.flash-branco { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(ellipse at center, rgba(255, 255, 255, 1) 20%, rgba(255, 255, 220, 0.8) 60%, rgba(255, 255, 255, 0) 85% ); z-index: 130; opacity: 0; animation: animacao-flash 1.5s ease-out forwards; }
+.texto-climax { color: #b71c1c; font-size: 12vw; font-weight: bold; letter-spacing: 5px; text-shadow: 0 0 15px #ff0000, 0 0 25px #ff0000, 0 0 40px #ff0000; z-index: 140; opacity: 0; animation: aparecer-pulsar-sumir 2s forwards; }
+@keyframes aparecer-pulsar-sumir { 0% { transform: scale(0.5); opacity: 0; } 50% { transform: scale(1.1); opacity: 1; } 80% { transform: scale(1); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+@keyframes aparecer-texto-final { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes brilho-divino { from { background-position: -200% center; } to { background-position: 200% center; } }
+.texto-final { position: absolute; bottom: 10%; font-size: 3vw; font-weight: bold; letter-spacing: 2px; z-index: 60; opacity: 0; color: transparent; background: linear-gradient( 90deg, #c0c0c0 0%, #ffffff 25%, #ffd700 50%, #ffffff 75%, #c0c0c0 100% ); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; text-shadow: 0 0 15px rgba(255, 223, 150, 0.5); animation: aparecer-texto-final 2s 1s forwards, brilho-divino 5s ease-in-out 3s infinite; }
+.container-luzes-celestiais { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 49; overflow: hidden; }
+@keyframes pulso-luz { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.7; transform: scale(1); } }
+.luz-celestial { position: absolute; background: radial-gradient(ellipse at center, rgba(255, 223, 150, 0.8) 0%, rgba(255, 223, 150, 0) 70% ); width: 200px; height: 200px; border-radius: 50%; filter: blur(40px); opacity: 0; animation-name: pulso-luz; animation-timing-function: ease-in-out; animation-iteration-count: infinite; }
+/* Barra de rolagem customizada */
+.chat-history::-webkit-scrollbar { width: 8px; }
+.chat-history::-webkit-scrollbar-track { background: #1f1f1f; }
+.chat-history::-webkit-scrollbar-thumb { background-color: #555; border-radius: 10px; border: 2px solid #1f1f1f; }
+
+/* === ESTILOS RESPONSIVOS === */
+@media (max-width: 768px) {
+  .personagem-sprite { height: 200px; margin-bottom: 0; }
+  .chat-container { margin-top: 10px; }
+  .chat-history { height: 280px; }
+  .quadro-memoria { width: 85vw; height: 40vh; }
+  .texto-climax { font-size: 18vw; }
+  .personagem-final .personagem-sprite { height: 380px; }
+  
+  /* MUDANÇA IMPORTANTE: Estilos robustos para o texto final em telas pequenas */
+  .texto-final {
+    width: 90%; /* Força a quebra de linha se necessário */
+    text-align: center; /* Garante que o texto quebrado fique centralizado */
+    bottom: 5%; /* Fixa a 5% da parte inferior da tela */
+    left: 50%;
+    transform: translateX(-50%); /* Garante a centralização horizontal */
+    font-size: clamp(22px, 6vw, 28px); /* Fonte flexível, com tamanho mínimo e máximo */
+    line-height: 1.2;
+    /* Remove o posicionamento do topo para evitar conflitos */
+    top: auto;
+  }
+}
