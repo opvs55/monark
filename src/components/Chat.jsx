@@ -6,7 +6,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 // --- CONFIGURAÇÃO DA API ---
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY; // <<<<<<<<<<<<<<<<<<< COLE SUA CHAVE DE API AQUI!
 const genAI = new GoogleGenerativeAI(API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' });
+const model = genAI.getGenerativeModel({ model: 'gemini-3-flash-preview' });
 
 // --- DEFINIÇÃO DA PERSONALIDADE DO PERSONAGEM ---
 const characterPrompt = `
